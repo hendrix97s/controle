@@ -1,0 +1,9 @@
+.container-control{
+    padding: 30px;
+    padding-top: 22px;
+    width: calc(100% - 20px);
+    overflow-y: auto;
+    height: 100vh;
+    /* border: 1px solid black; */
+}
+
