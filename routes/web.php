@@ -1,14 +1,16 @@
 <?php
 
 /**
- * Arquivo responsavel por tratar as requisições
- * e encaminhar as solicitações do view para o controller
+ * @author Luiz Lima <luiz.lima@wapstore.com.br>
+ * Rotas
+ * Arquivo responsavel por intermediar as requisições entre view e controller
  */
 
 use App\Controller\CostController;
 use App\Controller\MoneyController;
 use App\Controller\UserController;
 use App\Database\Filter;
+use App\Helpers\Redirect;
 
 $cost = new CostController;
 $money = new MoneyController;
@@ -16,7 +18,7 @@ $money = new MoneyController;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     switch ($_SERVER['REDIRECT_URL']) {
-            //edita os dados do usuario
+        //edita os dados do usuario
         case '/edit/profile':
             $data = [
                 'name'      => Filter::run($_POST['name']),
@@ -27,9 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $user = new UserController;
             $user->update($data);
-            header("Location: /home");
             break;
-            //cadastra um novo custo
+
+        //cadastra um novo custo
         case '/costs/store':
             $data = [
                 'id_user'       => Filter::run($_POST['id_user']),
@@ -42,9 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $cost->store($data);
 
             if ($_POST['type'] == 'variables') {
-                header("Location: /variaveis");
+                Redirect::run('/variaveis');
             } else {
-                header("Location: /fixos");
+                Redirect::run('/fixos');
             }
             break;
 
@@ -58,7 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'date'          => Filter::run(str_replace('/', '-', $_POST['date'])),
             ];
             $money->store($data);
-            header("Location: /salario");
             break;
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -66,6 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     switch ($_SERVER['REDIRECT_URL']) {
         // retorna a view de inicio "home"
         case '/home':
+            $money::index($_SERVER['REDIRECT_URL']);
+            break;
+        //retorna a view salario
+        case '/salario':
             $money::index($_SERVER['REDIRECT_URL']);
             break;
 
@@ -77,11 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //retorna a view de custos variaveis
         case '/variaveis':
             $cost::index($_SERVER['REDIRECT_URL']);
-            break;
-
-        //retorna a view salario
-        case '/salario':
-            $money::index($_SERVER['REDIRECT_URL']);
             break;
 
         //retorna a soma de todos os custos

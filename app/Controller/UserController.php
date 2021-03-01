@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Helpers\Redirect;
 use App\Helpers\UploadImage;
 use App\Model\User;
 
@@ -9,8 +10,7 @@ class UserController
 {
     private $user;
     
-    public function __construct()
-    {
+    public function __construct(){
         $this->user = new User;
     }
     /**
@@ -46,13 +46,9 @@ class UserController
      * @link
      */
     public function update(array $request):void{
-        echo "<pre>";
         $request['img'] = UploadImage::run($request['img']);
-        print_r($request);
-        echo "</pre>";
-        $this->user
-        ->where('id','=','1')
-        ->update($request);
+        $this->user->where('id','=','1')->update($request);
+        Redirect::run('/home');
     }
 
 }

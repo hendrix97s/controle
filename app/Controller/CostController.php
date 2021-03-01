@@ -14,8 +14,7 @@ class CostController
     private $cost;
     private $money;
     
-    public function __construct()
-    {
+    public function __construct(){
         $this->cost = new Cost;
         $this->money = new MoneyInput;
     }
@@ -27,12 +26,14 @@ class CostController
      *
      * @return  void
      */
-    public static function index(string $route):void
-    {
-        if($route == '/fixos'){
-            include_once "../view/costs-fixed.php";
-        }elseif($route == '/variaveis'){
-            include_once "../view/costs-variables.php";
+    public static function index(string $route):void{
+        switch ($route) {
+            case '/fixos':
+                include_once "../view/costs-fixed.php";
+                break;
+            case '/variaveis':
+                include_once "../view/costs-variables.php";
+                break;
         }
     }
 
