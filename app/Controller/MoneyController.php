@@ -19,6 +19,14 @@ class MoneyController
         $this->money = new MoneyInput;
     }
 
+
+    /**
+     * retorna a view de acordo com o parametro
+     *
+     * @param   string  $route  nome da rota para retorno de view
+     *
+     * @return  void
+     */
     public static function index($route)
     {
         if('/home'){
