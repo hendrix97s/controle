@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Model\Cost;
 use App\Model\MoneyInput;
 use App\Database\Filter;
+use App\Helpers\Redirect;
+
 /**
  *  Classe controle responsavel pelas operações de custos
  * @author Luiz Lima <luiz.lima@wapstore.com.br> 
@@ -26,7 +28,7 @@ class CostController
      *
      * @return  void
      */
-    public static function index(string $route):void{
+    public function index(string $route):void{
         switch ($route) {
             case '/fixos':
                 include_once "../view/costs-fixed.php";
@@ -48,6 +50,13 @@ class CostController
      */
     public function store(array $request):void{
         $this->cost->store($request);
+        switch ($request) {
+            case 'variables':
+                Redirect::run('/variaveis');
+            default:
+                Redirect::run('/fixos');
+                break;
+        }
     }
 
     /**

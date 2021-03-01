@@ -27,7 +27,7 @@ class MoneyController
      *
      * @return  void
      */
-    public static function index(string $route){
+    public function index(string $route){
         switch ($route) {
             case '/home':
                 include_once "../view/home.php";
