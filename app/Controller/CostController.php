@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Model\Cost;
 use App\Model\MoneyInput;
-
+use App\Database\Filter;
 /**
  *  Classe controle responsavel pelas operações de custos
  * @author Luiz Lima <luiz.lima@wapstore.com.br> 
@@ -139,6 +139,8 @@ class CostController
      * @link /costs/delete      
      */
     public function delete(int $id):void{
+
+        $id = Filter::run($id);
         $this->cost->where('id','=',$id)->delete();
     }
 }

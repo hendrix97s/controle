@@ -7,6 +7,7 @@
 use App\Controller\CostController;
 use App\Controller\MoneyController;
 use App\Controller\UserController;
+use App\Database\Filter;
 
 $cost = new CostController;
 $money = new MoneyController;
@@ -17,10 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //edita os dados do usuario
         case '/edit/profile':
             $data = [
-                'name' => $_POST['name'],
-                'email' => $_POST['email'],
-                'password' => $_POST['password'],
-                'img' => $_FILES['img']
+                'name'      => Filter::run($_POST['name']),
+                'email'     => Filter::run($_POST['email']),
+                'password'  => Filter::run($_POST['password']),
+                'img'       => $_FILES['img']
             ];
 
             $user = new UserController;
@@ -29,13 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
         //cadastra um novo custo
         case '/costs/store':
-
             $data = [
-                'id_user' => $_POST['id_user'],
-                'type' => $_POST['type'],
-                'date' => str_replace('/', '-', $_POST['date']),
-                'value' => str_replace(',', '.', $_POST['value']),
-                'description' => $_POST['description'],
+                'id_user'       => Filter::run($_POST['id_user']),
+                'type'          => Filter::run($_POST['type']),
+                'date'          => Filter::run(str_replace('/', '-', $_POST['date'])),
+                'value'         => Filter::run(str_replace(',', '.', $_POST['value'])),
+                'description'   => Filter::run($_POST['description']),
             ];
 
             $cost->store($data);
@@ -50,11 +50,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //cadastra um novo salario    
         case '/money/store':
             $data = [
-                'id_user' => $_POST['id_user'],
-                'origem' => $_POST['origem'],
-                'description' => $_POST['description'],
-                'value' => str_replace(',', '.', $_POST['value']),
-                'date' => str_replace('/', '-', $_POST['date']),
+                'id_user'       => Filter::run( $_POST['id_user']),
+                'origem'        => Filter::run( $_POST['origem']),
+                'description'   => Filter::run( $_POST['description']),
+                'value'         => Filter::run( str_replace(',', '.', $_POST['value'])),
+                'date'          => Filter::run( str_replace('/', '-', $_POST['date'])),
             ];
             $money->store($data);
             header("Location: /salario");

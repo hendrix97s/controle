@@ -10,7 +10,7 @@ namespace App\Database;
 class Filter
 {
     //filtra os dados para requisição para impedir SQL inject
-    protected static function run(string $data):string{
+    public static function run(string $data):string{
         //remove palavras reservadas
         $data = preg_replace('/(from|select|insert|delete|where|WHERE|drop table|show tables|#|\*| |\\\\)/i', ' ',$data);
         $data = strtolower($data);//converte caracteres da string em minusculos

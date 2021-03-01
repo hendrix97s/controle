@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Database\Filter;
 use App\Model\MoneyInput;
 
 /**
@@ -72,6 +73,7 @@ class MoneyController
      */
     public function delete(int $id): void
     {
+        $id = Filter::run($id);
         $this->money->where('id', '=', $id)->delete();
     }
 }
