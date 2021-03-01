@@ -18,6 +18,16 @@ class MoneyController
     {
         $this->money = new MoneyInput;
     }
+
+    public static function index($route)
+    {
+        if('/home'){
+            include_once "../view/home.php";
+        }elseif ('/salario') {
+            include_once "../view/money.php";
+        }
+    }
+
     /**
      * responsavel por cadastrar um novo salario no db
      *

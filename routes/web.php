@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Arquivo responsavel por tratar as requisições
  * e encaminhar as solicitações do view para o controller
@@ -15,7 +16,7 @@ $money = new MoneyController;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     switch ($_SERVER['REDIRECT_URL']) {
-        //edita os dados do usuario
+            //edita os dados do usuario
         case '/edit/profile':
             $data = [
                 'name'      => Filter::run($_POST['name']),
@@ -28,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user->update($data);
             header("Location: /home");
             break;
-        //cadastra um novo custo
+            //cadastra um novo custo
         case '/costs/store':
             $data = [
                 'id_user'       => Filter::run($_POST['id_user']),
@@ -47,14 +48,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             break;
 
-        //cadastra um novo salario    
+            //cadastra um novo salario    
         case '/money/store':
             $data = [
-                'id_user'       => Filter::run( $_POST['id_user']),
-                'origem'        => Filter::run( $_POST['origem']),
-                'description'   => Filter::run( $_POST['description']),
-                'value'         => Filter::run( str_replace(',', '.', $_POST['value'])),
-                'date'          => Filter::run( str_replace('/', '-', $_POST['date'])),
+                'id_user'       => Filter::run($_POST['id_user']),
+                'origem'        => Filter::run($_POST['origem']),
+                'description'   => Filter::run($_POST['description']),
+                'value'         => Filter::run(str_replace(',', '.', $_POST['value'])),
+                'date'          => Filter::run(str_replace('/', '-', $_POST['date'])),
             ];
             $money->store($data);
             header("Location: /salario");
@@ -63,53 +64,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     switch ($_SERVER['REDIRECT_URL']) {
+        // retorna a view de inicio "home"
+        case '/home':
+            $money::index($_SERVER['REDIRECT_URL']);
+            break;
+
+        //retorna a view de custos fixos
+        case '/fixos':
+            $cost::index($_SERVER['REDIRECT_URL']);
+            break;
+
+        //retorna a view de custos variaveis
+        case '/variaveis':
+            $cost::index($_SERVER['REDIRECT_URL']);
+            break;
+
+        //retorna a view salario
+        case '/salario':
+            $money::index($_SERVER['REDIRECT_URL']);
+            break;
+
         //retorna a soma de todos os custos
         case '/costs/all':
             echo $cost->showSumAll();
             break;
 
-        //retorna o percentual dos custos sobre salario de cada mes
+            //retorna o percentual dos custos sobre salario de cada mes
         case '/costs/percent':
             echo $cost->showPercentAll();
             break;
 
-        //retorna todos os custos variaveis
+            //retorna todos os custos variaveis
         case '/costs/variables':
             echo $cost->showVariables();
             break;
 
-        //retorna a soma dos custos variaveis agrupados por mes    
+            //retorna a soma dos custos variaveis agrupados por mes    
         case '/costs/variables/sum':
             echo $cost->showSumVariables();
             break;
 
-        //retorna todos os custos fixos
+            //retorna todos os custos fixos
         case '/costs/fixed':
             echo $cost->showFixeds();
             break;
 
-        //retorna a soma dos custos fixo agrupados por mes
+            //retorna a soma dos custos fixo agrupados por mes
         case '/costs/fixed/sum':
             echo $cost->showSumFixeds();
             break;
 
-        //retorna a soma dos salarios agrupados por mes
+            //retorna a soma dos salarios agrupados por mes
         case '/salario/sum':
             echo $money->showSumAll();
             break;
 
-        //retorna todos os salrios
+            //retorna todos os salrios
         case '/money':
             echo $money->showAll();
             break;
-        
-        //deleta salario
+
+            //deleta salario
         case '/money/delete':
             $id = explode("=", $_SERVER['QUERY_STRING']);
             $money->delete($id[1]);
             break;
-            
-        //deleta custo
+
+            //deleta custo
         case '/costs/delete':
             $id = explode("=", $_SERVER['QUERY_STRING']);
             $cost->delete($id[1]);

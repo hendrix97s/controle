@@ -20,6 +20,15 @@ class CostController
         $this->money = new MoneyInput;
     }
 
+    public static function index(string $route):void
+    {
+        if($route == '/fixos'){
+            include_once "../view/costs-fixed.php";
+        }elseif($route == '/variaveis'){
+            include_once "../view/costs-variables.php";
+        }
+    }
+
     /**
      * responsave por inserir o registro de custo no banco de dados
      *

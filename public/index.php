@@ -10,4 +10,5 @@ if ($_ENV['DEBUG'] == 'true') {
     ini_set('display_errors', 1);
 }
 
-include_once "../routes/routes.php";
+
+include_once "../routes/web.php";
