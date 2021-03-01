@@ -1,6 +1,10 @@
 <?php
+/**
+ * arquivo responsavel por analizar as rotas e 
+ * retornar o seu respectivo arquivo
+ */
 
-if (isset($_SERVER['REDIRECT_URL'])) {
+ if (isset($_SERVER['REDIRECT_URL'])) {
 
     switch (($_SERVER['REDIRECT_URL'])) {
         case '/home':
@@ -64,9 +68,9 @@ if (isset($_SERVER['REDIRECT_URL'])) {
         case '/costs/variables/sum':
             include_once "../routes/web.php";
             break;
-        default:
-            echo "error: 404 - not found";
-            break;
+        // default:
+        //     echo "error: 404 - not found";
+        //     break;
     }
 } else {
 }

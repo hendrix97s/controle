@@ -2,9 +2,21 @@
 
 namespace App\Database;
 
-
+/**
+ * @author Luiz Lima <luiz.lima@wapstore.com.br>
+ * Classe Trait responsavel pela construção de instruções SQL
+ * para Inserir ou atualizar dados no database
+ */
 trait SqlInsert 
 {
+    /**
+     * methodo responsavel por gerar o SQL para inserção
+     *
+     * @param   string  $table  nome da tabela cujo sera inserido os dados
+     * @param   array   $data   fillable para validação no prepare do PDO
+     *
+     * @return  string retorna o sql construido
+     */
     private function runConstructInsert(string $table, array $data):string{
 
         $c = count($data);
@@ -34,10 +46,18 @@ trait SqlInsert
         }
 
         $sql = "INSERT INTO $table ".$colunms." VALUES ".$values;
-        // print_r($sql);
         return $sql;
     }
 
+    /**
+     * Methodo responsavel por construi a instrução SQL para atualização de dados no database
+     *
+     * @param   string  $table      nome da tabela cujo sera atualizado os dados
+     * @param   array   $request    dados para atualização
+     * @param   string  $condition  condição para atualização dos dados (ex: where id=5)
+     *
+     * @return  string retorna a instrução SQL construida
+     */
     private function runConstructUpdate(string $table, array $request, string $condition):string{
 
         $c = count($request);
@@ -63,7 +83,6 @@ trait SqlInsert
         }
 
         $sql = "UPDATE $table SET ".$values.$condition;
-        // print_r($sql);
         return $sql;
     }
 

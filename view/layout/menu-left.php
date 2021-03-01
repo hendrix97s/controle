@@ -4,7 +4,7 @@ use App\Controller\UserController;
 
 $objUser = new UserController;
 $user = $objUser->show(1);
-// print_r();
+
 ?>
 <div id="menu-left" class="menu-left col-2">
     <div class="img">
