@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Database\Filter;
+use App\Helpers\Redirect;
 use App\Model\MoneyInput;
 
 /**
@@ -14,17 +15,26 @@ class MoneyController
 {
     private $money;
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->money = new MoneyInput;
     }
 
-    public static function index($route)
-    {
-        if('/home'){
-            include_once "../view/home.php";
-        }elseif ('/salario') {
-            include_once "../view/money.php";
+
+    /**
+     * retorna a view de acordo com o parametro
+     *
+     * @param   string  $route  nome da rota para retorno de view
+     *
+     * @return  void
+     */
+    public function index(string $route){
+        switch ($route) {
+            case '/home':
+                include_once "../view/home.php";
+                break;
+            case '/salario':
+                include_once "../view/money.php";
+                break;
         }
     }
 
@@ -35,9 +45,9 @@ class MoneyController
      *
      * @return  void
      */
-    public function store(array $request): void
-    {
+    public function store(array $request): void{
         $this->money->store($request);
+        Redirect::run('/salario');
     }
 
     /**
@@ -47,8 +57,7 @@ class MoneyController
      *
      * @return  object  retorna um objeto com os dados de requisição
      */
-    public function show(int $id): object
-    {
+    public function show(int $id): object{
         return $this->money->find($id);
     }
 
@@ -57,8 +66,7 @@ class MoneyController
      *
      * @return  string  retorna um objeto json
      */
-    public function showAll(): string
-    {
+    public function showAll(): string{
         $json = $this->money->all();
         return json_encode($json);
     }
@@ -68,8 +76,7 @@ class MoneyController
      *
      * @return  string  retorna um objeto json
      */
-    public function showSumAll(): string
-    {
+    public function showSumAll(): string{
         $json = $this->money->sumOfMonth();
         return json_encode($json);
     }
@@ -81,8 +88,7 @@ class MoneyController
      *
      * @return  void         
      */
-    public function delete(int $id): void
-    {
+    public function delete(int $id): void{
         $id = Filter::run($id);
         $this->money->where('id', '=', $id)->delete();
     }
