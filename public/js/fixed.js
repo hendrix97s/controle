@@ -86,7 +86,7 @@ r.queryCosts('/costs/fixed', 'costs-variables-rows')
 function del(id) {
     let conf = confirm("Tem certeza de que deseja exlcuir respectivo custo?!")
     if (conf) {
-        fetch('/costs/delete?id=' + id).then(del => {
+        fetch('/costs/delete?type=fixed&id=' + id).then(del => {
             location.reload();
         })
     }

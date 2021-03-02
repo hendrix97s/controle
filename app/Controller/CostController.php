@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Model\Cost;
 use App\Model\MoneyInput;
 use App\Database\Filter;
+use App\Helpers\Debug;
 use App\Helpers\Redirect;
 
 /**
@@ -50,9 +51,10 @@ class CostController
      */
     public function store(array $request):void{
         $this->cost->store($request);
-        switch ($request) {
+        switch ($request['type']) {
             case 'variables':
                 Redirect::run('/variaveis');
+                break;
             default:
                 Redirect::run('/fixos');
                 break;

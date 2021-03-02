@@ -8,6 +8,8 @@
 
 use App\Config\Route;
 use App\Database\Filter;
+use App\Helpers\Debug;
+use App\Helpers\Redirect;
 
 $route = new Route;
 $url = $_SERVER['REDIRECT_URL'];
@@ -102,8 +104,8 @@ switch ($url) {
 
         //deleta custo
     case '/costs/delete':
-        echo $_REQUEST['id'];
         $route->exec($url, 'delete', $_REQUEST['id']);
+        ($_REQUEST['type'] == 'fixed')? Redirect::run('/fixos'):Redirect::run('/variaveis');
         break;
     default:
         echo "Error 404 - Not found!";
